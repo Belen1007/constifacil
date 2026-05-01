@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constifácil — Tu Constitución, tu lenguaje</title>
+<style>
+/* ── FUENTES SEGURAS (sin dependencia de red) ── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --rojo:      #c0392b;
+  --rojo-vivo: #e74c3c;
+  --dorado:    #d4a017;
+  --azul:      #1a3a5c;
+  --azul-med:  #2e6da4;
+  --crema:     #fdf8f0;
+  --crema2:    #f5ede0;
+  --negro:     #1a1210;
+  --gris:      #6b6560;
+  --blanco:    #ffffff;
+  --ff-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --ff-body:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ff-mono:    'DM Mono', 'Courier New', monospace;
+  --radius:     12px;
+  --shadow:     0 4px 24px rgba(26,18,16,.12);
+  --shadow-lg:  0 12px 48px rgba(26,18,16,.18);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff-body);
+  background: var(--crema);
+  color: var(--negro);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ── NAVEGACIÓN ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(26,18,16,.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 60px;
+  border-bottom: 2px solid var(--dorado);
+}
+.nav-logo {
+  font-family: var(--ff-display);
+  font-size: 1.4rem;
+  color: var(--dorado);
+  letter-spacing: .02em;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-logo span { color: var(--blanco); }
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a {
+  font-size: .78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.72);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  transition: color .2s;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: .25rem .1rem;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--dorado); }
+
+/* ── SPA PÁGINAS ── */
+.page { display: none; padding-top: 60px; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ── HERO INICIO ── */
+.hero {
+  min-height: calc(100vh - 60px);
+  background: linear-gradient(145deg, var(--azul) 0%, #0e2340 60%, #1a1210 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-escudo { font-size: 3.5rem; margin-bottom: 1.2rem; animation: flotar 3s ease-in-out infinite; }
+@keyframes flotar { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-10px);} }
+.hero h1 {
+  font-family: var(--ff-display);
+  font-size: clamp(2.8rem, 8vw, 6rem);
+  color: var(--blanco); line-height: 1.05; margin-bottom: .5rem;
+}
+.hero h1 em { color: var(--dorado); font-style: normal; }
+.hero-sub {
+  font-size: clamp(.95rem, 2.5vw, 1.15rem);
+  color: rgba(255,255,255,.7);
+  max-width: 560px; margin: 1rem auto 2rem;
+}
+.hero-badges { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2.5rem; }
+.badge {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.85); font-size: .75rem; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: .3rem .8rem; border-radius: 999px;
+}
+.hero-cta {
+  display: inline-block; background: var(--dorado); color: var(--negro);
+  font-weight: 700; font-size: .95rem; padding: .85rem 2.2rem;
+  border-radius: 999px; letter-spacing: .04em; cursor: pointer;
+  transition: transform .2s, box-shadow .2s; border: none; text-transform: uppercase;
+}
+.hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(212,160,23,.4); }
+
+/* ── SECCIÓN BIENVENIDA ── */
+.bienvenida-section {
+  background: linear-gradient(135deg, #1a3a5c 0%, #0e2340 100%);
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.bienvenida-section::before {
+  content: '⚖️';
+  position: absolute; right: 2rem; top: 50%; transform: translateY(-50%);
+  font-size: 8rem; opacity: .06; pointer-events: none;
+}
+.bienvenida-inner { max-width: 860px; margin: 0 auto; }
+.bienvenida-tag {
+  display: inline-block;
+  background: var(--dorado); color: var(--negro);
+  font-family: var(--ff-mono); font-size: .72rem; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase;
+  padding: .3rem .85rem; border-radius: 999px; margin-bottom: 1.2rem;
+}
+.bienvenida-section h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--dorado); margin-bottom: .3rem; line-height: 1.15;
+}
+.bienvenida-section .subtitulo {
+  font-size: 1rem; color: rgba(255,255,255,.65);
+  font-style: italic; margin-bottom: 1.8rem;
+}
+.bienvenida-texto p {
+  color: rgba(255,255,255,.88); font-size: .97rem;
+  line-height: 1.8; margin-bottom: 1rem;
+}
+.bienvenida-texto p:last-child { margin-bottom: 0; }
+.bienvenida-texto strong { color: var(--dorado); }
+.bienvenida-cita {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.15);
+  border-left: 4px solid var(--dorado);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.bienvenida-cita blockquote {
+  font-family: var(--ff-display);
+  font-style: italic;
+  color: rgba(255,255,255,.9);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+.estado-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem; margin: 1.8rem 0;
+}
+.estado-item {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius); padding: 1.2rem 1.4rem;
+}
+.estado-item .estado-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+.estado-item h4 {
+  font-family: var(--ff-display); color: var(--dorado);
+  font-size: 1rem; margin-bottom: .4rem;
+}
+.estado-item p { color: rgba(255,255,255,.75); font-size: .88rem; margin: 0; }
+.ruta-list {
+  list-style: none; counter-reset: ruta; margin: 1rem 0;
+}
+.ruta-list li {
+  counter-increment: ruta;
+  display: flex; align-items: flex-start; gap: .9rem;
+  padding: .7rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  color: rgba(255,255,255,.82); font-size: .93rem;
+}
+.ruta-list li:last-child { border-bottom: none; }
+.ruta-num {
+  flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--dorado); color: var(--negro);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .8rem; margin-top: .15rem;
+}
+
+/* ── SESIONES GRID ── */
+.seccion-titulo { text-align: center; padding: 4rem 2rem 2.5rem; }
+.seccion-titulo h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--azul); margin-bottom: .5rem;
+}
+.seccion-titulo p { color: var(--gris); max-width: 520px; margin: 0 auto; }
+.sesiones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.4rem; padding: 0 2rem 4rem;
+  max-width: 1200px; margin: 0 auto;
+}
+.sesion-card {
+  background: var(--blanco); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden; cursor: pointer;
+  transition: transform .25s, box-shadow .25s;
+  border: 1px solid rgba(26,18,16,.06);
+}
+.sesion-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.sesion-card-header { padding: 1.8rem 1.8rem 1.1rem; }
+.sesion-numero {
+  font-family: var(--ff-mono); font-size: .72rem; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--blanco);
+  background: var(--azul); display: inline-block;
+  padding: .22rem .7rem; border-radius: 999px; margin-bottom: .9rem;
+}
+.sesion-emoji { font-size: 2.2rem; margin-bottom: .65rem; display: block; }
+.sesion-card h3 {
+  font-family: var(--ff-display); font-size: 1.25rem;
+  color: var(--negro); line-height: 1.25; margin-bottom: .35rem;
+}
+.sesion-tipo {
+  font-size: .78rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .1em; margin-bottom: .65rem;
+}
+.sesion-card-body { padding: 0 1.8rem 1.4rem; }
+.sesion-card p {
+  font-size: .9rem; color: var(--gris); line-height: 1.6; margin-bottom: 1rem;
+}
+.sesion-herramienta {
+  display: flex; align-items: center; gap: .45rem;
+  font-size: .78rem; color: var(--azul-med); font-weight: 600;
+  border-top: 1px solid var(--crema2); padding-top: .9rem;
+}
+.s1 .sesion-card-header { background: #1a3a5c; }
+.s2 .sesion-card-header { background: #2e6da4; }
+.s3 .sesion-card-header { background: #c0392b; }
+.s4 .sesion-card-header { background: #7b2d8b; }
+.s5 .sesion-card-header { background: #1a6648; }
+.s6 .sesion-card-header { background: linear-gradient(135deg,#c0392b,#d4a017); }
+.s1 .sesion-card-header *, .s2 .sesion-card-header *,
+.s3 .sesion-card-header *, .s4 .sesion-card-header *,
+.s5 .sesion-card-header *, .s6 .sesion-card-header * { color: var(--blanco) !important; }
+.s1 .sesion-tipo { color: #1a3a5c; }
+.s2 .sesion-tipo { color: #2e6da4; }
+.s3 .sesion-tipo { color: #c0392b; }
+.s4 .sesion-tipo { color: #7b2d8b; }
+.s5 .sesion-tipo { color: #1a6648; }
+.s6 .sesion-tipo { color: #c0392b; }
+
+/* ── BUSCADOR HOME ── */
+.buscador-section {
+  background: var(--azul); padding: 3.5rem 2rem; position: relative; overflow: hidden;
+}
+.buscador-section::after {
+  content: '⚖'; position: absolute; right: 2.5rem; top: 50%;
+  transform: translateY(-50%); font-size: 9rem; opacity: .05; pointer-events: none;
+}
+.buscador-inner { max-width: 720px; margin: 0 auto; }
+.buscador-section h2 { font-family: var(--ff-display); color: var(--blanco); font-size: 1.9rem; margin-bottom: .4rem; }
+.buscador-section p { color: rgba(255,255,255,.65); margin-bottom: 1.6rem; }
+.buscador-form { display: flex; gap: .65rem; flex-wrap: wrap; }
+.buscador-input {
+  flex: 1; min-width: 180px; padding: .8rem 1.1rem;
+  border-radius: var(--radius); border: 2px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.1); color: var(--blanco);
+  font-family: var(--ff-body); font-size: .93rem; outline: none;
+  transition: border-color .2s; -webkit-appearance: none;
+}
+.buscador-input::placeholder { color: rgba(255,255,255,.42); }
+.buscador-input:focus { border-color: var(--dorado); }
+.buscador-btn {
+  padding: .8rem 1.8rem; background: var(--dorado); color: var(--negro);
+  border: none; border-radius: var(--radius); font-family: var(--ff-body);
+  font-weight: 700; font-size: .93rem; cursor: pointer; transition: transform .2s;
+  -webkit-appearance: none; touch-action: manipulation;
+}
+.buscador-btn:hover { transform: scale(1.04); }
+.buscador-resultado {
+  margin-top: 1.3rem; background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15); border-radius: var(--radius);
+  padding: 1.4rem; display: none; animation: fadeIn .3s ease;
+}
+.buscador-resultado.visible { display: block; }
+.buscador-resultado .art-num {
+  font-family: var(--ff-mono); font-size: .78rem; color: var(--dorado);
+  letter-spacing: .14em; text-transform: uppercase; margin-bottom: .35rem;
+}
+.buscador-resultado h4 { color: var(--blanco); font-size: 1.05rem; margin-bottom: .5rem; font-family: var(--ff-display); }
+.buscador-resultado p { color: rgba(255,255,255,.8); font-size: .9rem; margin-bottom: 0; }
+.buscador-resultado .tag {
+  display: inline-block; background: var(--dorado); color: var(--negro);
+  font-size: .7rem; font-weight: 700; padding: .18rem .55rem;
+  border-radius: 999px; margin-right: .35rem; margin-top: .55rem; letter-spacing: .04em;
+}
+@keyframes fadeIn { from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none;} }
+
+/* ── PÁGINAS DE SESIÓN ── */
+.sesion-hero {
+  min-height: 300px; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 4rem 2.5rem 2.5rem;
+  position: relative; overflow: hidden;
+}
+.sesion-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.sesion-hero-tag {
+  font-family: var(--ff-mono); font-size: .75rem; letter-spacing: .18em;
+  text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: .8rem;
+  position: relative;
+}
+.sesion-hero h1 {
+  font-family: var(--ff-display); font-size: clamp(1.8rem, 5vw, 2.8rem);
+  color: var(--blanco); line-height: 1.1; margin-bottom: .6rem; position: relative;
+}
+.sesion-hero-sub { color: rgba(255,255,255,.75); font-size: .97rem; max-width: 560px; position: relative; }
+.sesion-content { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+
+/* Bloques */
+.bloque {
+  background: var(--blanco); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 2rem; margin-bottom: 1.5rem;
+  border-left: 5px solid var(--azul);
+}
+.bloque-objetivo { border-left-color: var(--azul); }
+.bloque-relato   { border-left-color: var(--dorado); }
+.bloque-actividad{ border-left-color: var(--rojo); }
+.bloque-articulos{ border-left-color: #7b2d8b; }
+.bloque-evaluacion{ border-left-color: #1a6648; }
+.bloque-label {
+  font-family: var(--ff-mono); font-size: .72rem; font-weight: 500;
+  letter-spacing: .15em; text-transform: uppercase; color: var(--azul-med);
+  margin-bottom: .7rem;
+}
+.bloque-relato .bloque-label   { color: #b8860b; }
+.bloque-actividad .bloque-label{ color: var(--rojo); }
+.bloque-articulos .bloque-label{ color: #7b2d8b; }
+.bloque-evaluacion .bloque-label{ color: #1a6648; }
+.bloque h3 {
+  font-family: var(--ff-display); font-size: 1.3rem; color: var(--negro);
+  margin-bottom: .8rem; line-height: 1.25;
+}
+.bloque p { color: #444; font-size: .93rem; line-height: 1.7; }
+
+/* Relato */
+.relato-box {
+  background: var(--crema2); border-radius: 10px; padding: 1.4rem 1.6rem; margin-top: .8rem;
+}
+.relato-box p { margin-bottom: .9rem; color: #333; font-size: .93rem; }
+.relato-box p:last-child { margin-bottom: 0; }
+.relato-box em { color: var(--azul); font-style: italic; }
+
+/* Artículos */
+.articulos-lista { display: flex; flex-direction: column; gap: .75rem; margin-top: .9rem; }
+.articulo-item {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: .9rem 1rem; background: var(--crema);
+  border-radius: 8px; border: 1px solid var(--crema2);
+}
+.articulo-num {
+  flex-shrink: 0; background: var(--azul); color: var(--blanco);
+  font-family: var(--ff-mono); font-size: .7rem; font-weight: 500;
+  padding: .3rem .65rem; border-radius: 6px; letter-spacing: .08em; margin-top: .15rem;
+}
+.articulo-texto strong { display: block; font-size: .93rem; color: var(--negro); margin-bottom: .2rem; }
+.articulo-texto p { font-size: .86rem; color: var(--gris); margin: 0; }
+
+/* Pasos */
+.pasos { counter-reset: paso; }
+.paso {
+  display: flex; gap: 1.1rem; margin-bottom: 1.1rem; align-items: flex-start;
+}
+.paso::before {
+  counter-increment: paso; content: counter(paso);
+  flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--rojo); color: var(--blanco);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .88rem;
+}
+.paso p { margin: 0; color: #333; padding-top: .32rem; font-size: .92rem; }
+.paso strong { color: var(--negro); }
+
+/* Evaluación */
+.eval-table { width: 100%; border-collapse: collapse; font-size: .86rem; margin-top: .9rem; overflow: hidden; border-radius: 8px; }
+.eval-table th { background: var(--azul); color: var(--blanco); padding: .6rem .9rem; text-align: left; font-weight: 600; }
+.eval-table td { padding: .6rem .9rem; border-bottom: 1px solid var(--crema2); vertical-align: top; }
+.eval-table tr:nth-child(even) td { background: var(--crema2); }
+.nivel-exc { color: #1a6648; font-weight: 700; }
+.nivel-not { color: var(--azul-med); }
+.nivel-apr { color: #b8860b; }
+
+/* Herramientas chips */
+.herramientas-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+.chip {
+  display: flex; align-items: center; gap: .35rem;
+  background: var(--crema2); border: 1px solid #ddd0bb;
+  border-radius: 999px; padding: .3rem .9rem;
+  font-size: .8rem; font-weight: 600; color: var(--negro);
+}
+
+/* Nav sesiones */
+.sesion-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 900px; margin: 0 auto 1.8rem; padding: 1.2rem 2rem 0;
+}
+.sesion-nav-btn {
+  display: flex; align-items: center; gap: .45rem;
+  background: var(--blanco); border: 1px solid #ddd;
+  border-radius: var(--radius); padding: .55rem 1.1rem;
+  font-size: .86rem; font-weight: 600; cursor: pointer;
+  color: var(--negro); transition: background .2s, border-color .2s;
+  touch-action: manipulation;
+}
+.sesion-nav-btn:hover { background: var(--crema2); border-color: var(--azul); }
+.sesion-nav-btn:disabled { opacity: .35; pointer-events: none; }
+
+/* Buscador página */
+.buscador-page { padding: 2rem 2rem 4rem; max-width: 900px; margin: 0 auto; }
+.buscador-page h2 { font-family: var(--ff-display); font-size: 2.2rem; color: var(--azul); margin-bottom: .45rem; }
+.buscador-page .sub { color: var(--gris); margin-bottom: 1.8rem; }
+.buscador-standalone-form { display: flex; gap: .65rem; flex-wrap: wrap; margin-bottom: .9rem; }
+.buscador-standalone-input {
+  flex: 1; min-width: 200px; padding: .8rem 1.1rem;
+  border-radius: var(--radius); border: 2px solid #ddd;
+  font-family: var(--ff-body); font-size: .93rem; outline: none;
+  transition: border-color .2s; background: var(--blanco); -webkit-appearance: none;
+}
+.buscador-standalone-input:focus { border-color: var(--azul); }
+.buscador-standalone-btn {
+  padding: .8rem 1.8rem; background: var(--azul); color: var(--blanco);
+  border: none; border-radius: var(--radius); font-family: var(--ff-body);
+  font-weight: 700; font-size: .93rem; cursor: pointer; transition: transform .2s;
+  touch-action: manipulation;
+}
+.buscador-standalone-btn:hover { transform: scale(1.04); }
+.resultados-lista { display: flex; flex-direction: column; gap: .9rem; }
+.resultado-card {
+  background: var(--blanco); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 1.4rem 1.8rem; border-left: 5px solid var(--azul); animation: fadeIn .3s ease;
+}
+.resultado-card .art-num { font-family: var(--ff-mono); font-size: .73rem; color: var(--azul-med); letter-spacing: .14em; text-transform: uppercase; margin-bottom: .28rem; }
+.resultado-card h4 { font-family: var(--ff-display); font-size: 1.15rem; color: var(--negro); margin-bottom: .45rem; }
+.resultado-card .def { color: #333; font-size: .9rem; margin-bottom: .7rem; }
+.resultado-card .ejemplo { background: var(--crema2); border-radius: 8px; padding: .85rem .95rem; font-size: .86rem; color: #555; border-left: 3px solid var(--dorado); }
+.resultado-card .ejemplo strong { color: var(--negro); }
+.resultado-card .sesion-rel { display: inline-block; background: var(--azul); color: var(--blanco); font-size: .7rem; padding: .18rem .6rem; border-radius: 999px; margin-top: .7rem; font-weight: 600; }
+.sin-resultado { text-align: center; padding: 2.5rem; color: var(--gris); font-style: italic; }
+
+/* Footer */
+footer { background: var(--negro); color: rgba(255,255,255,.52); text-align: center; padding: 1.8rem 1.5rem; font-size: .8rem; }
+footer strong { color: var(--dorado); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 0 1rem; height: 56px; }
+  .nav-logo { font-size: 1.2rem; }
+  .nav-links { gap: .6rem; padding-right: .5rem; }
+  .nav-links a { font-size: .7rem; }
+  .page { padding-top: 56px; }
+  .hero { padding: 3.5rem 1.2rem 3rem; }
+  .bienvenida-section { padding: 2.5rem 1.2rem; }
+  .sesiones-grid { padding: 0 1.2rem 3rem; gap: 1rem; }
+  .sesion-content { padding: 1.5rem 1.2rem 3rem; }
+  .sesion-hero { padding: 2rem 1.5rem 1.8rem; min-height: 240px; }
+  .sesion-nav { padding: 1rem 1.2rem 0; }
+  .buscador-section { padding: 2.5rem 1.2rem; }
+  .buscador-page { padding: 1.5rem 1.2rem 3rem; }
+  .bloque { padding: 1.4rem 1.2rem; }
+  .eval-table { font-size: .78rem; }
+  .eval-table th, .eval-table td { padding: .45rem .65rem; }
+  .estado-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 2.4rem; }
+  .sesion-hero h1 { font-size: 1.6rem; }
+  .bienvenida-section h2 { font-size: 1.6rem; }
+  .buscador-form, .buscador-standalone-form { flex-direction: column; }
+  .buscador-btn, .buscador-standalone-btn { width: 100%; }
+  .sesion-nav-btn { padding: .45rem .75rem; font-size: .8rem; }
+}
+/* Animación escape room */
+@keyframes gradAnim { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+</style>
+</head>
+<body>
+
+<!-- NAVEGACIÓN -->
+<nav>
+  <div class="nav-logo" onclick="goTo('inicio')">Consti<span>fácil</span></div>
+  <ul class="nav-links">
+    <li><a onclick="goTo('inicio')" id="nav-inicio">Inicio</a></li>
+    <li><a onclick="goTo('buscador')" id="nav-buscador">Buscador</a></li>
+    <li><a onclick="goTo('s1')" id="nav-s1">S1</a></li>
+    <li><a onclick="goTo('s2')" id="nav-s2">S2</a></li>
+    <li><a onclick="goTo('s3')" id="nav-s3">S3</a></li>
+    <li><a onclick="goTo('s4')" id="nav-s4">S4</a></li>
+    <li><a onclick="goTo('s5')" id="nav-s5">S5</a></li>
+    <li><a onclick="goTo('s6')" id="nav-s6">S6</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA: INICIO
+══════════════════════════════════════════ -->
+<div id="page-inicio" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-escudo">⚖️</div>
+    <h1>Consti<em>fácil</em></h1>
+    <p class="hero-sub">La Constitución Española de 1978 en tu lenguaje. Entiende tus derechos, conoce tus garantías, actúa como ciudadano.</p>
+    <div class="hero-badges">
+      <span class="badge">CFGS Movilidad Segura</span>
+      <span class="badge">FOL / IPE</span>
+      <span class="badge">6 sesiones</span>
+      <span class="badge">IES Felipe Trigo · Móstoles</span>
+    </div>
+    <button class="hero-cta" onclick="document.getElementById('bienvenida-section').scrollIntoView({behavior:'smooth'})">¡Empieza aquí! ↓</button>
+  </section>
+
+  <!-- ══ SECCIÓN BIENVENIDA ══ -->
+  <section class="bienvenida-section" id="bienvenida-section">
+    <div class="bienvenida-inner">
+      <div class="bienvenida-tag">📌 Bienvenido/a a Constifácil</div>
+      <h2>¡Bienvenido/as a Constifácil!</h2>
+      <p class="subtitulo">Tu Brújula Constitucional en FOL</p>
+
+      <div class="bienvenida-texto">
+        <p>Hola a todos/as. Como abogada y profesora de FOL, compruebo a diario en el aula que conceptos como <strong>"Constitución"</strong>, <strong>"recurso de amparo"</strong> o <strong>"derechos fundamentales"</strong> os suelen sonar a un idioma técnico, lejano y —vamos a reconocerlo— aburrido. E incluso me atrevería a decir, casi hasta inútil.</p>
+        <p>¡<strong>Error!</strong> Aunque no seamos siempre conscientes, el Derecho inunda nuestra vida social, política y pública desde que nos levantamos.</p>
+        <p>Esta página no nace para que memoricéis los artículos de memoria. Nace con un objetivo claro: acercaros la Constitución Española de 1978 a los alumnos de Grado Medio y Superior de FOL. Quiero demostrarros que no solo es un texto histórico, sino más bien <strong>"el manual de instrucciones"</strong> real y vital de nuestra convivencia. Es la herramienta esencial para manejarse en el día a día.</p>
+      </div>
+
+      <div class="bienvenida-cita">
+        <blockquote>Empecemos por lo Básico: Las Reglas del Juego.</blockquote>
+      </div>
+
+      <div class="bienvenida-texto">
+        <p>Como todo manual, nuestra Constitución tiene unas reglas básicas. Arranca con su <strong>artículo 1.1</strong>, definiendo a España como:</p>
+        <p style="color:var(--dorado);font-style:italic;font-size:1rem;padding:.5rem 0">"un Estado social y democrático de Derecho que propugna como valores superiores de su ordenamiento jurídico, la libertad, la justicia, la igualdad y el pluralismo político".</p>
+        <p>🧩 Y, digo yo, ¿será fácil navegar en esta web? 🤔 Paciencia: en Constifácil desgranamos cada uno de los conceptos técnicos para que los entiendas.</p>
+      </div>
+
+      <div class="estado-grid">
+        <div class="estado-item">
+          <div class="estado-icon">🛡️</div>
+          <h4>Estado Social</h4>
+          <p>El Estado se compromete a no dejarte atrás. Se traduce en sanidad, educación y, especialmente en FOL, en <strong>tus derechos laborales</strong>.</p>
+        </div>
+        <div class="estado-item">
+          <div class="estado-icon">🗳️</div>
+          <h4>Democrático</h4>
+          <p>El poder no cae del cielo. La ciudadanía tiene el mando para <strong>elegir a sus representantes</strong> cada 4 años.</p>
+        </div>
+        <div class="estado-item">
+          <div class="estado-icon">⚖️</div>
+          <h4>De Derecho</h4>
+          <p>Las reglas del juego se aplican a todos por igual. <strong>Nadie, absolutamente nadie</strong>, está por encima de la ley.</p>
+        </div>
+      </div>
+
+      <div class="bienvenida-cita" style="margin-top:1.5rem">
+        <blockquote>🛠️ ¿Cómo vamos a descubrirlo? Tu hoja de ruta en 6 sesiones</blockquote>
+      </div>
+      <div class="bienvenida-texto">
+        <p>Para ayudaros a comprender todo esto —algo esencial en vuestra formación teórica y práctica— esta web está dividida en apartados prácticos. Nuestra metodología se basa en el <strong>Digital Storytelling</strong> (aprender contando historias) y el uso de herramientas digitales.</p>
+      </div>
+
+      <p style="color:rgba(255,255,255,.75);font-weight:700;margin:1.2rem 0 .6rem">🚦 Tu viaje en Constifácil:</p>
+      <ul class="ruta-list">
+        <li><div class="ruta-num">1</div><div><strong style="color:rgba(255,255,255,.95)">S1: 🎬 Activación | El Enigma</strong> — Presentación de un conflicto real. ¿Qué harías tú?</div></li>
+        <li><div class="ruta-num">2</div><div><strong style="color:rgba(255,255,255,.95)">S2: 🔍 Investigación | Exploradores Jurídicos</strong> — Usamos Constifácil para buscar la base legal del problema.</div></li>
+        <li><div class="ruta-num">3</div><div><strong style="color:rgba(255,255,255,.95)">S3: ⚖️ Diferenciación | Fundamentales vs. Básicos</strong> — Aprendemos a qué nivel nos protege la Constitución en cada caso.</div></li>
+        <li><div class="ruta-num">4</div><div><strong style="color:rgba(255,255,255,.95)">S4: 💡 Producción | Creadores Digitales</strong> — Diseñamos y grabamos un video-relato aplicando lo aprendido.</div></li>
+        <li><div class="ruta-num">5</div><div><strong style="color:rgba(255,255,255,.95)">S5: 👨‍⚖️ Evaluación | El Tribunal de FP</strong> — Ponemos a prueba vuestros relatos en simulaciones de juicios y debates.</div></li>
+        <li><div class="ruta-num">6</div><div><strong style="color:rgba(255,255,255,.95)">S6: 🏆 Consolidación | Escape Constitucional</strong> — Cerramos con un reto de Escape Room Digital para demostrar tu dominio.</div></li>
+      </ul>
+      <p style="color:rgba(255,255,255,.7);font-size:.9rem;margin-top:1.2rem;font-style:italic">Cada apartado se inicia con una breve píldora teórica —lo justo y básico para entender el concepto— y salta inmediatamente a la aplicación práctica en vuestra vida cotidiana.</p>
+    </div>
+  </section>
+
+  <!-- SESIONES GRID -->
+  <section id="sesiones-grid-section">
+    <div class="seccion-titulo">
+      <h2>Las 6 sesiones de aprendizaje</h2>
+      <p>Cada sesión es una historia. Cada historia, un derecho. Haz clic para entrar.</p>
+    </div>
+    <div class="sesiones-grid">
+
+      <div class="sesion-card s1" onclick="goTo('s1')">
+        <div class="sesion-card-header">
+          <div class="sesion-numero">Sesión 01 · Activación</div>
+          <span class="sesion-emoji">🔍</span>
+          <h3>El Enigma de Lucas</h3>
+          <div class="sesion-tipo">Activación — 45 min</div>
+        </div>
+        <div class="sesion-card-body">
+          <p>Lucas trabaja como conductor de vehículo eléctrico y algo no encaja: su empresa le monitoriza sin avisar y su jefe revisa sus redes. ¿Qué derechos se están vulnerando?</p>
+          <div class="sesion-herramienta"><span>🛠</span> Mentimeter + Constifácil</div>
+        </div>
+      </div>
+
+      <div class="sesion-card s2" onclick="goTo('s2')">
+        <div class="sesion-card-header">
+          <div class="sesion-numero">Sesión 02 · Investigación</div>
+          <span class="sesion-emoji">🗺️</span>
+          <h3>Scavenger Hunt Constitucional</h3>
+          <div class="sesion-tipo">Investigación — 45 min</div>
+        </div>
+        <div class="sesion-card-body">
+          <p>¿La Constitución protege tu trabajo? En esta búsqueda del tesoro normativa descubrirás qué artículos regulan tu vida laboral antes de que firmes tu primer contrato.</p>
+          <div class="sesion-herramienta"><span>🛠</span> Constifácil (buscador)</div>
+        </div>
+      </div>
+
+      <div class="sesion-card s3" onclick="goTo('s3')">
+        <div class="sesion-card-header">
+          <div class="sesion-numero">Sesión 03 · Diferenciación</div>
+          <span class="sesion-emoji">⚖️</span>
+          <h3>El Mapa de Decisiones</h3>
+          <div class="sesion-tipo">Diferenciación — 45 min</div>
+        </div>
+        <div class="sesion-card-body">
+          <p>¿Todos los derechos son iguales? No. Algunos tienen escudo de adamantio. Aprende a distinguir los derechos fundamentales del resto y a identificar sus garantías.</p>
+          <div class="sesion-herramienta"><span>🛠</span> Genially</div>
+        </div>
+      </div>
+
+      <div class="sesion-card s4" onclick="goTo('s4')">
+        <div class="sesion-card-header">
+          <div class="sesion-numero">Sesión 04 · Producción</div>
+          <span class="sesion-emoji">🎬</span>
+          <h3>Agencia de Comunicación Ética</h3>
+          <div class="sesion-tipo">Creación — 45 min</div>
+        </div>
+        <div class="sesion-card-body">
+          <p>Sois la agencia de comunicación del instituto. Vuestra misión: crear contenido viral sobre derechos digitales. Canva, TikTok y Constifácil son vuestras armas.</p>
+          <div class="sesion-herramienta"><span>🛠</span> Canva · TikTok/Reels</div>
+        </div>
+      </div>
+
+      <div class="sesion-card s5" onclick="goTo('s5')">
+        <div class="sesion-card-header">
+          <div class="sesion-numero">Sesión 05 · Evaluación</div>
+          <span class="sesion-emoji">🏛️</span>
+          <h3>El Veredicto de Móstoles</h3>
+          <div class="sesion-tipo">Argumentación — 45 min</div>
+        </div>
+        <div class="sesion-card-body">
+          <p>El aula se convierte en tribunal. Defensa, acusación y magistrados deben argumentar con los artículos constitucionales como único código de referencia.</p>
+          <div class="sesion-herramienta"><span>🛠</span> Google Classroom</div>
+        </div>
+      </div>
+
+      <div class="sesion-card s6" onclick="goTo('s6')">
+        <div class="sesion-card-header">
+          <div class="sesion-numero">Sesión 06 · Consolidación</div>
+          <span class="sesion-emoji">🔐</span>
+          <h3>Escape Room: Libertad</h3>
+          <div class="sesion-tipo">Gamificación — 45 min</div>
+        </div>
+        <div class="sesion-card-body">
+          <p>Un villano digital ha bloqueado los sistemas de movilidad de Móstoles. Solo los códigos constitucionales correctos pueden restaurar el orden. ¿Estás preparado?</p>
+          <div class="sesion-herramienta"><span>🛠</span> Genially (Escape Room)</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BUSCADOR HOME -->
+  <section class="buscador-section">
+    <div class="buscador-inner">
+      <h2>Buscador Constifácil</h2>
+      <p>Escribe un derecho, un artículo o una situación laboral y te explicamos qué dice la Constitución en lenguaje claro.</p>
+      <div class="buscador-form">
+        <input class="buscador-input" id="buscador-hero-input" placeholder="Ej: intimidad, trabajo, huelga, datos…" onkeydown="if(event.key==='Enter')buscarHero()">
+        <button class="buscador-btn" onclick="buscarHero()">Buscar</button>
+      </div>
+      <div class="buscador-resultado" id="buscador-hero-resultado"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Constifácil</strong> · Recurso Educativo Abierto (REA) · IES Felipe Trigo, Móstoles · Curso 2025-2026</p>
+    <p style="margin-top:.35rem">Diseñado por M.ª Belén López Narro · TFM Máster Formación del Profesorado (FOL) · Universidad Rey Juan Carlos</p>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PÁGINA: BUSCADOR
+══════════════════════════════════════════ -->
+<div id="page-buscador" class="page">
+  <div class="buscador-page">
+    <h2>🔍 Buscador Constifácil</h2>
+    <p class="sub">Busca por derecho, artículo, situación laboral o palabra clave. Te lo explicamos sin tecnicismos.</p>
+    <div class="buscador-standalone-form">
+      <input class="buscador-standalone-input" id="buscador-main-input" placeholder="Ej: recurso de amparo, huelga, intimidad, trabajo, datos…" onkeydown="if(event.key==='Enter')buscarMain()">
+      <button class="buscador-standalone-btn" onclick="buscarMain()">Buscar</button>
+    </div>
+    <div id="buscador-main-resultado" class="resultados-lista"></div>
+  </div>
+  <footer><p><strong>Constifácil</strong> · Recurso Educativo Abierto · IES Felipe Trigo · 2025-2026</p></footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SESIÓN 1
+══════════════════════════════════════════ -->
+<div id="page-s1" class="page">
+  <div class="sesion-hero" style="background:linear-gradient(135deg,#1a3a5c,#0e2340)">
+    <div class="sesion-hero-tag">Sesión 01 · Activación · 45 minutos</div>
+    <h1>🔍 El Enigma de Lucas</h1>
+    <p class="sesion-hero-sub">¿Puede tu empresa vigilarte sin decírtelo? ¿Tiene derecho a revisar tus redes? Vamos a descubrirlo juntos.</p>
+  </div>
+  <div class="sesion-nav">
+    <button class="sesion-nav-btn" disabled>← Anterior</button>
+    <span style="font-family:var(--ff-mono);font-size:.78rem;color:var(--gris)">1 / 6</span>
+    <button class="sesion-nav-btn" onclick="goTo('s2')">Sesión 2 →</button>
+  </div>
+  <div class="sesion-content">
+    <div class="bloque bloque-objetivo">
+      <div class="bloque-label">🎯 Objetivo de la sesión</div>
+      <h3>¿Qué vamos a aprender?</h3>
+      <p>Detectar conocimientos previos sobre derechos constitucionales y generar interés por los contenidos. Al finalizar, serás capaz de <strong>identificar intuitivamente qué derechos pueden estar en juego</strong> en una situación laboral real y contrastarlos con la Constitución.</p>
+    </div>
+    <div class="bloque bloque-relato">
+      <div class="bloque-label">📖 El relato</div>
+      <h3>La historia de Lucas</h3>
+      <div class="relato-box">
+        <p><strong>Lucas tiene 23 años</strong> y lleva tres meses trabajando como conductor de un vehículo eléctrico de reparto en Móstoles. Le gusta su trabajo: contacto con la calle, autonomía, tecnología de última generación.</p>
+        <p>Pero esta mañana, algo le ha inquietado. Su supervisora le ha llamado al despacho y le ha mostrado una captura de pantalla de su perfil de Instagram, donde él había publicado una foto criticando las condiciones de los repartidores. <em>"Esto no queda bien para la empresa"</em>, le ha dicho.</p>
+        <p>Además, acaba de enterarse de que el vehículo lleva un sistema GPS que registra no solo su ruta de trabajo, sino también a dónde va cuando termina su jornada. <strong>Nadie se lo dijo cuando firmó el contrato.</strong></p>
+        <p>Lucas no sabe si tiene razón para estar preocupado. ¿O sí la tiene?</p>
+      </div>
+    </div>
+    <div class="bloque bloque-actividad">
+      <div class="bloque-label">⚡ Actividad</div>
+      <h3>¿Qué derechos crees que se están vulnerando?</h3>
+      <div class="pasos">
+        <div class="paso"><p><strong>Individualmente (5 min):</strong> Entra en Mentimeter con el código de tu docente y responde: ¿Qué derechos crees que tiene Lucas y que podrían estar siendo vulnerados?</p></div>
+        <div class="paso"><p><strong>En grupo (10 min):</strong> Discutid en vuestro equipo las respuestas. ¿Coincidís? ¿Quién ha nombrado algo que los demás no habían pensado?</p></div>
+        <div class="paso"><p><strong>Con Constifácil (15 min):</strong> Usad el buscador para encontrar los artículos constitucionales que protegen a Lucas. Escribid "intimidad", "datos" o "expresión" y comparad con lo que habíais dicho.</p></div>
+        <div class="paso"><p><strong>Puesta en común (10 min):</strong> Cada grupo presenta sus hallazgos. El docente introduce los conceptos de <em>derecho fundamental</em> y <em>garantías constitucionales</em>.</p></div>
+      </div>
+      <div class="herramientas-chips">
+        <span class="chip">📊 Mentimeter</span>
+        <span class="chip">🔍 Constifácil</span>
+        <span class="chip">👥 Grupos cooperativos</span>
+      </div>
+    </div>
+    <div class="bloque bloque-articulos">
+      <div class="bloque-label">📜 Artículos que protegen a Lucas</div>
+      <h3>Lo que dice la Constitución</h3>
+      <div class="articulos-lista">
+        <div class="articulo-item">
+          <div class="articulo-num">Art. 18</div>
+          <div class="articulo-texto"><strong>Derecho a la intimidad y a la propia imagen</strong><p>Tu empresa no puede vigilar tus movimientos fuera del horario laboral ni revisar tu perfil en redes sociales sin tu consentimiento.</p></div>
+        </div>
+        <div class="articulo-item">
+          <div class="articulo-num">Art. 20</div>
+          <div class="articulo-texto"><strong>Libertad de expresión</strong><p>Tienes derecho a expresar y difundir libremente tus ideas y opiniones. Tu empresa no puede sancionarte por lo que publiques en tus redes en tu tiempo libre, salvo límites muy concretos.</p></div>
+        </div>
+        <div class="articulo-item">
+          <div class="articulo-num">Art. 18.4</div>
+          <div class="articulo-texto"><strong>Protección de datos</strong><p>La ley limitará el uso de la informática para garantizar el honor y la intimidad personal. El GPS que registra tus movimientos fuera del trabajo puede violar este derecho.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="bloque bloque-evaluacion">
+      <div class="bloque-label">✅ Evaluación</div>
+      <h3>¿Cómo se valora esta sesión?</h3>
+      <table class="eval-table">
+        <thead><tr><th>Indicador</th><th>Excelente (9-10)</th><th>Notable (7-8)</th><th>Aprobado (5-6)</th></tr></thead>
+        <tbody>
+          <tr><td>Identificación de derechos</td><td class="nivel-exc">Nombra ≥2 derechos constitucionales y los vincula con artículos concretos</td><td class="nivel-not">Nombra 1 derecho con argumento razonado</td><td class="nivel-apr">Intuye vulneración pero sin precisión jurídica</td></tr>
+          <tr><td>Uso de Constifácil</td><td class="nivel-exc">Busca autónomamente y contrasta hipótesis con artículos encontrados</td><td class="nivel-not">Usa el buscador con ayuda y localiza artículos relevantes</td><td class="nivel-apr">Accede a la plataforma pero necesita guía para interpretar</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <footer><p><strong>Constifácil</strong> · Sesión 1 · IES Felipe Trigo · 2025-2026</p></footer>
+</div>
+
+<!-- ══ SESIÓN 2 ══ -->
+<div id="page-s2" class="page">
+  <div class="sesion-hero" style="background:linear-gradient(135deg,#2e6da4,#1a3a5c)">
+    <div class="sesion-hero-tag">Sesión 02 · Investigación · 45 minutos</div>
+    <h1>🗺️ Scavenger Hunt Constitucional</h1>
+    <p class="sesion-hero-sub">¿La norma suprema protege tu trabajo? Búscalo, encuéntralo, demuéstralo.</p>
+  </div>
+  <div class="sesion-nav">
+    <button class="sesion-nav-btn" onclick="goTo('s1')">← Sesión 1</button>
+    <span style="font-family:var(--ff-mono);font-size:.78rem;color:var(--gris)">2 / 6</span>
+    <button class="sesion-nav-btn" onclick="goTo('s3')">Sesión 3 →</button>
+  </div>
+  <div class="sesion-content">
+    <div class="bloque bloque-objetivo">
+      <div class="bloque-label">🎯 Objetivo de la sesión</div>
+      <h3>¿Qué vamos a aprender?</h3>
+      <p>Diferenciar la Constitución de otras normas del ordenamiento jurídico y comprenderla como <strong>norma suprema</strong>. Aprenderás a localizar qué artículos protegen situaciones laborales concretas del sector de la movilidad.</p>
+    </div>
+    <div class="bloque bloque-relato">
+      <div class="bloque-label">📖 El reto</div>
+      <h3>La misión de tu equipo</h3>
+      <div class="relato-box">
+        <p><strong>Sois investigadores jurídicos</strong> contratados por el Sindicato de Conductores de Vehículos Eléctricos de Móstoles. Han recibido cuatro quejas de trabajadores y necesitan saber si la Constitución las ampara.</p>
+        <p>Vuestra misión: usar el buscador de Constifácil para localizar qué artículos constitucionales protegen cada situación. <em>El equipo que encuentre más artículos relevantes y los explique con mayor precisión gana el reto.</em></p>
+      </div>
+    </div>
+    <div class="bloque bloque-actividad">
+      <div class="bloque-label">⚡ Las cuatro quejas — Actividad</div>
+      <h3>¿Qué artículo protege cada situación?</h3>
+      <div class="pasos">
+        <div class="paso"><p><strong>Caso A — Videovigilancia:</strong> Ana lleva un vehículo con 12 cámaras que graban el interior de la cabina. Nadie le informó. ¿Hay algún artículo constitucional que la proteja? Busca "intimidad" e "imagen" en Constifácil.</p></div>
+        <div class="paso"><p><strong>Caso B — Desconexión digital:</strong> Marcos recibe WhatsApps de trabajo a las 23:00 y se le exige contestar. ¿Tiene amparo constitucional el derecho al descanso? Busca "trabajo", "descanso" y "jornada".</p></div>
+        <div class="paso"><p><strong>Caso C — Sindicato:</strong> Un grupo de compañeros quiere crear una sección sindical y la empresa lo dificulta. ¿Qué dice la Constitución? Busca "sindicato" y "huelga".</p></div>
+        <div class="paso"><p><strong>Caso D — Discriminación:</strong> Elena es la única mujer en su equipo y percibe un trato diferente en la asignación de rutas. ¿La Constitución prohíbe esto? Busca "igualdad" y "discriminación".</p></div>
+      </div>
+      <div class="herramientas-chips">
+        <span class="chip">🔍 Constifácil (buscador)</span>
+        <span class="chip">👥 Grupos cooperativos</span>
+        <span class="chip">📋 Ficha de andamiaje</span>
+      </div>
+    </div>
+    <div class="bloque bloque-articulos">
+      <div class="bloque-label">📜 Artículos constitucionales clave</div>
+      <h3>La jerarquía normativa: ¿por qué la CE está por encima de todo?</h3>
+      <div class="articulos-lista">
+        <div class="articulo-item"><div class="articulo-num">Art. 9.3</div><div class="articulo-texto"><strong>Principio de jerarquía normativa</strong><p>La Constitución garantiza que ninguna ley puede contradecirla. Es la norma de normas.</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 28</div><div class="articulo-texto"><strong>Libertad sindical y derecho de huelga</strong><p>Tienes derecho a afiliarte al sindicato que quieras y a hacer huelga. Son derechos fundamentales con protección reforzada.</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 14</div><div class="articulo-texto"><strong>Igualdad ante la ley</strong><p>Nadie puede ser discriminado por razón de sexo, raza, religión u otras circunstancias. Incluye la asignación de tareas en el trabajo.</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 40.2</div><div class="articulo-texto"><strong>Derecho al descanso</strong><p>Los poderes públicos garantizarán el descanso necesario mediante la limitación de la jornada laboral.</p></div></div>
+      </div>
+    </div>
+    <div class="bloque bloque-evaluacion">
+      <div class="bloque-label">✅ Evaluación</div>
+      <h3>¿Cómo se valora esta sesión?</h3>
+      <table class="eval-table">
+        <thead><tr><th>Indicador</th><th>Excelente (9-10)</th><th>Notable (7-8)</th><th>Aprobado (5-6)</th></tr></thead>
+        <tbody><tr><td>Búsqueda y relación normativa</td><td class="nivel-exc">Localiza ≥3 artículos pertinentes y explica con precisión su relación con la situación laboral</td><td class="nivel-not">Localiza 2 artículos con explicación razonada</td><td class="nivel-apr">Localiza algún artículo pero la explicación es superficial</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <footer><p><strong>Constifácil</strong> · Sesión 2 · IES Felipe Trigo · 2025-2026</p></footer>
+</div>
+
+<!-- ══ SESIÓN 3 ══ -->
+<div id="page-s3" class="page">
+  <div class="sesion-hero" style="background:linear-gradient(135deg,#c0392b,#922b21)">
+    <div class="sesion-hero-tag">Sesión 03 · Diferenciación · 45 minutos</div>
+    <h1>⚖️ El Mapa de Decisiones</h1>
+    <p class="sesion-hero-sub">No todos los derechos tienen el mismo escudo. Aprende a distinguir los que tienen protección máxima.</p>
+  </div>
+  <div class="sesion-nav">
+    <button class="sesion-nav-btn" onclick="goTo('s2')">← Sesión 2</button>
+    <span style="font-family:var(--ff-mono);font-size:.78rem;color:var(--gris)">3 / 6</span>
+    <button class="sesion-nav-btn" onclick="goTo('s4')">Sesión 4 →</button>
+  </div>
+  <div class="sesion-content">
+    <div class="bloque bloque-objetivo">
+      <div class="bloque-label">🎯 Objetivo de la sesión</div>
+      <h3>¿Qué vamos a aprender?</h3>
+      <p>Distinguir entre <strong>derechos fundamentales</strong> (arts. 15-29 CE, Sección 1.ª) y <strong>derechos de configuración legal</strong> (arts. 30-38 CE, Sección 2.ª), identificando sus distintos niveles de garantía y mecanismos de protección.</p>
+    </div>
+    <div class="bloque bloque-relato">
+      <div class="bloque-label">📖 La clave</div>
+      <h3>¿Qué diferencia a un derecho fundamental del resto?</h3>
+      <div class="relato-box">
+        <p>Imagina que la Constitución es un castillo con tres zonas de seguridad.</p>
+        <p><strong>🔴 Zona Roja (máxima protección):</strong> Los derechos fundamentales (arts. 15-29). Solo pueden suspenderse en estado de excepción. Para cambiarlos, hace falta una mayoría de 2/3 del Congreso y el Senado, más referéndum. Si te los violan, puedes ir hasta el Tribunal Constitucional con el recurso de amparo.</p>
+        <p><strong>🟠 Zona Naranja (protección media):</strong> Derechos y libertades del Capítulo II, Sección 2.ª (arts. 30-38): derecho al trabajo, a la propiedad, a la educación. Necesitan una ley orgánica para regularse, pero no tienen el escudo del amparo.</p>
+        <p><strong>🟢 Zona Verde (principios rectores):</strong> Capítulo III (arts. 39-52): protección de la familia, salud, medio ambiente. Son principios que orientan las políticas públicas, pero no los puedes exigir directamente ante un tribunal.</p>
+      </div>
+    </div>
+    <div class="bloque bloque-actividad">
+      <div class="bloque-label">⚡ Actividad — Genially</div>
+      <h3>Clasifica estos 8 derechos en su zona correcta</h3>
+      <p style="color:#555;margin-bottom:1rem">Abre el Genially que te indicará tu docente y clasifica cada situación en la zona correcta del castillo constitucional. Luego justifica por qué en vuestro cuaderno de andamiaje.</p>
+      <div class="pasos">
+        <div class="paso"><p>Derecho a la vida (art. 15) → ¿Qué zona? ¿Qué garantías tiene?</p></div>
+        <div class="paso"><p>Derecho al trabajo (art. 35) → ¿Qué zona? ¿Puedo reclamar un puesto de trabajo ante el TC?</p></div>
+        <div class="paso"><p>Derecho a la huelga (art. 28) → ¿Qué zona? ¿Puede una empresa prohibirla sin más?</p></div>
+        <div class="paso"><p>Derecho a un medio ambiente sano (art. 45) → ¿Es exigible directamente ante los tribunales?</p></div>
+      </div>
+      <div class="herramientas-chips">
+        <span class="chip">🎮 Genially (dilema interactivo)</span>
+        <span class="chip">📋 Ficha de andamiaje</span>
+        <span class="chip">👥 Grupos cooperativos</span>
+      </div>
+    </div>
+    <div class="bloque bloque-articulos">
+      <div class="bloque-label">📜 Conceptos clave</div>
+      <h3>El recurso de amparo: tu escudo máximo</h3>
+      <div class="articulos-lista">
+        <div class="articulo-item"><div class="articulo-num">Art. 53.2</div><div class="articulo-texto"><strong>El recurso de amparo ante el Tribunal Constitucional</strong><p>Si un poder público viola tus derechos fundamentales (arts. 14-29), puedes acudir al Tribunal Constitucional. Es el "último recurso" cuando la justicia ordinaria no te ha protegido.</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 168</div><div class="articulo-texto"><strong>Reforma constitucional agravada</strong><p>Para cambiar los derechos fundamentales hay que disolver las Cortes, convocar nuevas elecciones y celebrar un referéndum.</p></div></div>
+      </div>
+    </div>
+    <div class="bloque bloque-evaluacion">
+      <div class="bloque-label">✅ Evaluación</div>
+      <h3>¿Cómo se valora esta sesión?</h3>
+      <table class="eval-table">
+        <thead><tr><th>Indicador</th><th>Excelente (9-10)</th><th>Notable (7-8)</th><th>Aprobado (5-6)</th></tr></thead>
+        <tbody><tr><td>Precisión en la clasificación jurídica</td><td class="nivel-exc">Distingue sin errores entre categorías y explica los distintos mecanismos de protección</td><td class="nivel-not">Clasifica correctamente con algún error en la justificación</td><td class="nivel-apr">Clasifica la mayoría pero confunde amparo y tutela ordinaria</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <footer><p><strong>Constifácil</strong> · Sesión 3 · IES Felipe Trigo · 2025-2026</p></footer>
+</div>
+
+<!-- ══ SESIÓN 4 ══ -->
+<div id="page-s4" class="page">
+  <div class="sesion-hero" style="background:linear-gradient(135deg,#7b2d8b,#4a1060)">
+    <div class="sesion-hero-tag">Sesión 04 · Producción · 45 minutos</div>
+    <h1>🎬 Agencia de Comunicación Ética</h1>
+    <p class="sesion-hero-sub">Sois la agencia del instituto. Vuestra misión: hacer que la Constitución sea viral.</p>
+  </div>
+  <div class="sesion-nav">
+    <button class="sesion-nav-btn" onclick="goTo('s3')">← Sesión 3</button>
+    <span style="font-family:var(--ff-mono);font-size:.78rem;color:var(--gris)">4 / 6</span>
+    <button class="sesion-nav-btn" onclick="goTo('s5')">Sesión 5 →</button>
+  </div>
+  <div class="sesion-content">
+    <div class="bloque bloque-objetivo">
+      <div class="bloque-label">🎯 Objetivo de la sesión</div>
+      <h3>¿Qué vamos a aprender?</h3>
+      <p>Desarrollar la <strong>competencia digital ciudadana (DigComp 2.2)</strong> creando contenido jurídico en formato audiovisual. El alumno pasa de consumidor a <em>prosumidor</em>: productor y consumidor de cultura jurídica.</p>
+    </div>
+    <div class="bloque bloque-relato">
+      <div class="bloque-label">📖 El briefing</div>
+      <h3>La misión de la agencia</h3>
+      <div class="relato-box">
+        <p><strong>Felicidades.</strong> Vuestro equipo acaba de ser contratado como la Agencia de Comunicación Ética del IES Felipe Trigo.</p>
+        <p>El Departamento de Orientación os encarga una campaña urgente: el alumnado del centro no sabe que tiene derechos digitales. No saben que grabar a un compañero sin permiso puede violar un derecho fundamental. <em>Vosotros sí lo sabéis.</em> Ahora tenéis que explicárselo.</p>
+        <p>Vuestra campaña debe llegar a cualquier alumno de FP de España. Formato: <strong>vídeo breve (TikTok/Reel, máx. 60 seg.) o infografía (Canva).</strong></p>
+      </div>
+    </div>
+    <div class="bloque bloque-actividad">
+      <div class="bloque-label">⚡ Actividad</div>
+      <h3>Crea tu contenido en 3 pasos</h3>
+      <div class="pasos">
+        <div class="paso"><p><strong>Elige tu derecho digital (10 min):</strong> Cada grupo elige un derecho del listado de abajo. Consultad Constifácil para leer el artículo en lenguaje claro y anotad los datos clave.</p></div>
+        <div class="paso"><p><strong>Diseña el guion (15 min):</strong> Usad la ficha de andamiaje para estructurar: (1) gancho inicial, (2) qué dice la CE, (3) ejemplo real en la movilidad, (4) llamada a la acción.</p></div>
+        <div class="paso"><p><strong>Produce y publica (25 min):</strong> Grabad el vídeo o diseñad la infografía. Subidlo a Google Classroom con el hashtag <strong>#ConstifácilFP</strong>.</p></div>
+      </div>
+      <div style="margin-top:1.2rem;padding:1.1rem;background:var(--crema2);border-radius:10px;border:1px solid #ddd0bb">
+        <p style="font-weight:700;color:var(--negro);margin-bottom:.65rem">Derechos digitales disponibles:</p>
+        <div class="herramientas-chips">
+          <span class="chip">🔒 Protección de datos (art. 18.4)</span>
+          <span class="chip">📵 Desconexión digital</span>
+          <span class="chip">🙅 Derecho al olvido</span>
+          <span class="chip">📷 Derecho a la propia imagen (art. 18.1)</span>
+          <span class="chip">💬 Libertad de expresión en redes (art. 20)</span>
+          <span class="chip">🔐 Secreto de las comunicaciones (art. 18.3)</span>
+        </div>
+      </div>
+      <div class="herramientas-chips" style="margin-top:.9rem">
+        <span class="chip">🎨 Canva</span>
+        <span class="chip">📱 TikTok / Reels</span>
+        <span class="chip">🔍 Constifácil</span>
+        <span class="chip">📂 Google Classroom</span>
+      </div>
+    </div>
+    <div class="bloque bloque-evaluacion">
+      <div class="bloque-label">✅ Evaluación</div>
+      <h3>¿Cómo se valora esta sesión?</h3>
+      <table class="eval-table">
+        <thead><tr><th>Indicador</th><th>Excelente (9-10)</th><th>Notable (7-8)</th><th>Aprobado (5-6)</th></tr></thead>
+        <tbody>
+          <tr><td>Creatividad y rigor jurídico</td><td class="nivel-exc">Contenido visualmente atractivo, lenguaje sencillo y jurídicamente correcto. Cita ≥2 artículos</td><td class="nivel-not">Contenido claro con alguna imprecisión jurídica menor</td><td class="nivel-apr">Contenido básico, jurídicamente correcto pero sin profundidad</td></tr>
+          <tr><td>Competencia digital</td><td class="nivel-exc">Dominio creativo de la herramienta; formato original y adaptado al público</td><td class="nivel-not">Usa la herramienta con soltura; formato adecuado</td><td class="nivel-apr">Produce el material con dificultades técnicas menores</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <footer><p><strong>Constifácil</strong> · Sesión 4 · IES Felipe Trigo · 2025-2026</p></footer>
+</div>
+
+<!-- ══ SESIÓN 5 ══ -->
+<div id="page-s5" class="page">
+  <div class="sesion-hero" style="background:linear-gradient(135deg,#1a6648,#0d3d2b)">
+    <div class="sesion-hero-tag">Sesión 05 · Evaluación · 45 minutos</div>
+    <h1>🏛️ El Veredicto de Móstoles</h1>
+    <p class="sesion-hero-sub">El aula es el tribunal. Tú decides. ¿Quién tiene razón constitucional?</p>
+  </div>
+  <div class="sesion-nav">
+    <button class="sesion-nav-btn" onclick="goTo('s4')">← Sesión 4</button>
+    <span style="font-family:var(--ff-mono);font-size:.78rem;color:var(--gris)">5 / 6</span>
+    <button class="sesion-nav-btn" onclick="goTo('s6')">Sesión 6 →</button>
+  </div>
+  <div class="sesion-content">
+    <div class="bloque bloque-objetivo">
+      <div class="bloque-label">🎯 Objetivo de la sesión</div>
+      <h3>¿Qué vamos a aprender?</h3>
+      <p>Fomentar el <strong>pensamiento crítico y la argumentación jurídica</strong>. Al finalizar, serás capaz de construir un argumento jurídico usando vocabulario constitucional de manera natural y coherente con el caso planteado.</p>
+    </div>
+    <div class="bloque bloque-relato">
+      <div class="bloque-label">📖 El caso judicial</div>
+      <h3>El Caso Marta contra FleetDrive S.L.</h3>
+      <div class="relato-box">
+        <p><strong>Marta</strong>, conductora de reparto de vehículos eléctricos en Móstoles, fue despedida después de publicar un vídeo en TikTok criticando las condiciones laborales de su empresa. La empresa alega que su publicación dañó la imagen corporativa. Marta alega que ejercía su derecho a la libertad de expresión.</p>
+        <p>Además, la empresa tenía instalado un sistema de escucha activa en los vehículos que grababa las conversaciones sin informar a los conductores. Marta pide que se declare la nulidad de su despido y una indemnización por vulneración de sus derechos fundamentales.</p>
+        <p><em>Constifácil es vuestro código de referencia. Los artículos están ahí. Solo hay que saber usarlos.</em></p>
+      </div>
+    </div>
+    <div class="bloque bloque-actividad">
+      <div class="bloque-label">⚡ Actividad — Juicio simulado</div>
+      <h3>Los roles del tribunal</h3>
+      <div class="pasos">
+        <div class="paso"><p><strong>Grupo Defensa (abogados de Marta):</strong> Argumentad que la empresa ha vulnerado el art. 20 (libertad de expresión) y el art. 18.3 (secreto de las comunicaciones). Preparad al menos 3 argumentos con artículos concretos de Constifácil.</p></div>
+        <div class="paso"><p><strong>Grupo Acusación (abogados de la empresa):</strong> Argumentad que el despido fue procedente: la libertad de expresión tiene límites cuando afecta a la reputación empresarial. ¿Qué artículos apoyan vuestra postura?</p></div>
+        <div class="paso"><p><strong>Grupo Magistrados:</strong> Escucháis a ambas partes y deliberáis. Debéis citar en vuestra sentencia al menos 4 artículos constitucionales y justificar vuestro fallo.</p></div>
+        <div class="paso"><p><strong>Veredicto final (10 min):</strong> Los magistrados leen la sentencia en voz alta. El docente modera el debate y cierra con el argumento que faltaba.</p></div>
+      </div>
+      <div class="herramientas-chips">
+        <span class="chip">🔍 Constifácil</span>
+        <span class="chip">📂 Google Classroom</span>
+        <span class="chip">🎭 Rol playing jurídico</span>
+      </div>
+    </div>
+    <div class="bloque bloque-articulos">
+      <div class="bloque-label">📜 Artículos en juego</div>
+      <h3>Lo que ambas partes necesitan saber</h3>
+      <div class="articulos-lista">
+        <div class="articulo-item"><div class="articulo-num">Art. 20</div><div class="articulo-texto"><strong>Libertad de expresión — Derecho fundamental</strong><p>Se reconoce el derecho a expresar y difundir libremente pensamientos e ideas. Pero tiene un límite: el honor, la intimidad y la imagen de terceros (art. 18).</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 18.3</div><div class="articulo-texto"><strong>Secreto de las comunicaciones</strong><p>Se garantiza el secreto de las comunicaciones, salvo resolución judicial. Grabar conversaciones sin consentimiento lo viola.</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 55</div><div class="articulo-texto"><strong>Suspensión de derechos</strong><p>Los derechos fundamentales solo pueden suspenderse en estados de excepción o sitio. Una empresa privada no puede suspenderlos en ningún caso.</p></div></div>
+      </div>
+    </div>
+    <div class="bloque bloque-evaluacion">
+      <div class="bloque-label">✅ Evaluación</div>
+      <h3>¿Cómo se valora esta sesión?</h3>
+      <table class="eval-table">
+        <thead><tr><th>Indicador</th><th>Excelente (9-10)</th><th>Notable (7-8)</th><th>Aprobado (5-6)</th></tr></thead>
+        <tbody>
+          <tr><td>Calidad de la argumentación jurídica</td><td class="nivel-exc">Usa términos como "garantía", "recurso de amparo" o "tutela judicial" de forma natural y coherente</td><td class="nivel-not">Argumenta con precisión pero con algún error terminológico</td><td class="nivel-apr">Participa activamente pero la argumentación es imprecisa</td></tr>
+          <tr><td>Uso de artículos constitucionales</td><td class="nivel-exc">Cita ≥4 artículos pertinentes con explicación correcta de su aplicación al caso</td><td class="nivel-not">Cita 2-3 artículos con aplicación razonada</td><td class="nivel-apr">Cita algún artículo pero la aplicación al caso es forzada</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <footer><p><strong>Constifácil</strong> · Sesión 5 · IES Felipe Trigo · 2025-2026</p></footer>
+</div>
+
+<!-- ══ SESIÓN 6 ══ -->
+<div id="page-s6" class="page">
+  <div class="sesion-hero" style="background:linear-gradient(135deg,#c0392b,#d4a017,#c0392b);background-size:200% 200%;animation:gradAnim 4s ease infinite">
+    <div class="sesion-hero-tag">Sesión 06 · Consolidación · 45 minutos</div>
+    <h1>🔐 Escape Room: Libertad</h1>
+    <p class="sesion-hero-sub">Un villano digital ha bloqueado Móstoles. Solo los códigos constitucionales correctos pueden salvarla.</p>
+  </div>
+  <div class="sesion-nav">
+    <button class="sesion-nav-btn" onclick="goTo('s5')">← Sesión 5</button>
+    <span style="font-family:var(--ff-mono);font-size:.78rem;color:var(--gris)">6 / 6</span>
+    <button class="sesion-nav-btn" disabled>Fin ✓</button>
+  </div>
+  <div class="sesion-content">
+    <div class="bloque bloque-objetivo">
+      <div class="bloque-label">🎯 Objetivo de la sesión</div>
+      <h3>¿Qué vamos a demostrar?</h3>
+      <p>Evaluar de forma lúdica la <strong>adquisición global de la alfabetización jurídica funcional</strong>. Esta sesión es la síntesis de todo lo aprendido: derechos, garantías, jerarquía normativa y competencia digital, todo en juego.</p>
+    </div>
+    <div class="bloque bloque-relato">
+      <div class="bloque-label">📖 La amenaza</div>
+      <h3>Alerta en Móstoles</h3>
+      <div class="relato-box">
+        <p><strong>Mensaje de emergencia — Sistema de Movilidad de Móstoles:</strong></p>
+        <p>A las 8:47 h de esta mañana, un agente desconocido ha accedido ilegalmente a los servidores centrales de la red de movilidad eléctrica del municipio. Ha dejado un mensaje:</p>
+        <p><em>"Solo quienes conozcan de verdad sus derechos como ciudadanos podrán restaurar el sistema. Cada reto que superéis desbloqueará un fragmento del código de acceso. Tenéis 45 minutos."</em></p>
+        <p><strong>Vuestra ciudad os necesita. Constifácil es vuestra única arma.</strong></p>
+      </div>
+    </div>
+    <div class="bloque bloque-actividad">
+      <div class="bloque-label">⚡ Los 5 retos del Escape Room</div>
+      <h3>Abre el Genially y supera cada prueba</h3>
+      <div class="pasos">
+        <div class="paso"><p><strong>Reto 1 — La Cámara Oculta:</strong> En el almacén central hay una cámara que graba sin aviso. ¿Qué artículo constitucional se ha violado y qué mecanismo de protección existe? [Código: número de artículo + tipo de garantía]</p></div>
+        <div class="paso"><p><strong>Reto 2 — El Sindicato Prohibido:</strong> El villano ha disuelto todos los sindicatos de conductores. ¿Qué artículo fundamental protege la libertad sindical? ¿Es un derecho fundamental o de configuración legal? [Código: categoría correcta]</p></div>
+        <div class="paso"><p><strong>Reto 3 — La Norma Trampa:</strong> El villano ha aprobado un decreto que prohíbe la huelga sin seguir el procedimiento constitucional. ¿Qué principio del art. 9 lo impide? [Código: nombre del principio]</p></div>
+        <div class="paso"><p><strong>Reto 4 — El Juicio Exprés:</strong> Un conductor ha sido condenado sin abogado ni proceso judicial. ¿Qué derecho fundamental del Título I garantiza la tutela judicial efectiva? [Código: número de artículo]</p></div>
+        <div class="paso"><p><strong>Reto 5 — El Código Final:</strong> Combinad los cuatro códigos anteriores para construir la clave maestra y restaurar el sistema de Móstoles. ¡El tiempo corre!</p></div>
+      </div>
+      <div class="herramientas-chips">
+        <span class="chip">🎮 Genially (Escape Room digital)</span>
+        <span class="chip">🔍 Constifácil</span>
+        <span class="chip">⏱ 45 minutos</span>
+        <span class="chip">👥 Equipos de 4-5</span>
+      </div>
+    </div>
+    <div class="bloque bloque-articulos">
+      <div class="bloque-label">📜 Repaso final — Lo esencial</div>
+      <h3>Los 5 artículos que todo conductor debe conocer</h3>
+      <div class="articulos-lista">
+        <div class="articulo-item"><div class="articulo-num">Art. 14</div><div class="articulo-texto"><strong>Igualdad ante la ley</strong><p>Sin discriminación por sexo, raza, religión u otras circunstancias. Base de todos los derechos.</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 18</div><div class="articulo-texto"><strong>Intimidad, imagen y datos</strong><p>Tu empresa no puede vigilarte sin tu conocimiento. Tus datos son tuyos.</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 20</div><div class="articulo-texto"><strong>Libertad de expresión</strong><p>Puedes criticar públicamente las condiciones laborales. Tiene límites, pero son muy estrechos.</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 28</div><div class="articulo-texto"><strong>Sindicato y huelga</strong><p>Derecho fundamental. Tu empresa no puede impedirte afiliarte a un sindicato ni hacer huelga legal.</p></div></div>
+        <div class="articulo-item"><div class="articulo-num">Art. 24</div><div class="articulo-texto"><strong>Tutela judicial efectiva</strong><p>Siempre tienes derecho a un proceso judicial justo con todas las garantías. Es irrenunciable.</p></div></div>
+      </div>
+    </div>
+    <div class="bloque bloque-evaluacion">
+      <div class="bloque-label">✅ Evaluación final</div>
+      <h3>¿Cómo se valora esta sesión?</h3>
+      <table class="eval-table">
+        <thead><tr><th>Indicador</th><th>Excelente (9-10)</th><th>Notable (7-8)</th><th>Aprobado (5-6)</th></tr></thead>
+        <tbody>
+          <tr><td>Resolución de retos</td><td class="nivel-exc">Resuelve los 5 retos demostrando sólida vinculación entre norma y realidad</td><td class="nivel-not">Resuelve 3-4 retos con argumentación coherente</td><td class="nivel-apr">Resuelve 2 retos con ayuda del grupo</td></tr>
+          <tr><td>Vocabulario jurídico</td><td class="nivel-exc">Usa con naturalidad: garantía, amparo, tutela, jerarquía normativa, derecho fundamental</td><td class="nivel-not">Usa correctamente la mayoría de los términos</td><td class="nivel-apr">Identifica los conceptos pero con imprecisiones terminológicas</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:1.4rem;padding:1.1rem;background:#f0f9f4;border:1px solid #a8d5b8;border-radius:10px;border-left:4px solid #1a6648">
+        <p style="font-weight:700;color:#1a6648;margin-bottom:.35rem">🎉 ¡Enhorabuena por completar las 6 sesiones!</p>
+        <p style="color:#2d6a4f;font-size:.9rem;margin:0">Has pasado de ver la Constitución como un texto ajeno a usarla como herramienta de tu vida profesional y ciudadana. Eso es alfabetización jurídica funcional.</p>
+      </div>
+    </div>
+  </div>
+  <footer><p><strong>Constifácil</strong> · Sesión 6 · IES Felipe Trigo · 2025-2026</p></footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     BASE DE DATOS CONSTITUCIONAL (JS)
+══════════════════════════════════════════ -->
+<script>
+const ARTICULOS = [
+  { num:'Art. 14', titulo:'Igualdad ante la ley', def:'Los españoles son iguales ante la ley, sin que pueda prevalecer discriminación alguna por razón de nacimiento, raza, sexo, religión, opinión o cualquier otra condición o circunstancia personal o social.', ejemplo:'Tu empresa no puede pagarte menos que a tus compañeros por ser mujer. No puede asignarte peores rutas por tu origen. La igualdad en el trabajo empieza aquí.', tags:['igualdad','discriminación','sexo','raza','religión','mujer'], sesion:'Sesión 2 · 3' },
+  { num:'Art. 15', titulo:'Derecho a la vida e integridad', def:'Todos tienen derecho a la vida y a la integridad física y moral, sin que, en ningún caso, puedan ser sometidos a tortura ni a penas o tratos inhumanos o degradantes.', ejemplo:'En el sector de la movilidad: tu empresa no puede obligarte a conducir en condiciones que pongan en riesgo tu vida (vehículos sin mantenimiento, jornadas que provocan sueño al volante).', tags:['vida','integridad','tortura','trato degradante','seguridad'], sesion:'Sesión 3' },
+  { num:'Art. 18', titulo:'Derecho a la intimidad, imagen y datos', def:'Se garantiza el derecho al honor, a la intimidad personal y familiar y a la propia imagen. El domicilio es inviolable. Se garantiza el secreto de las comunicaciones. La ley limitará el uso de la informática para garantizar el honor y la intimidad personal y familiar de los ciudadanos.', ejemplo:'Tu empresa no puede poner cámaras en los vestuarios, revisar tu móvil personal ni rastrear tu GPS fuera de la jornada laboral sin tu consentimiento. Tus datos son tuyos.', tags:['intimidad','imagen','datos','GPS','cámara','vigilancia','privacidad','honor','domicilio'], sesion:'Sesión 1 · 4' },
+  { num:'Art. 18.3', titulo:'Secreto de las comunicaciones', def:'Se garantiza el secreto de las comunicaciones y, en especial, de las postales, telegráficas y telefónicas, salvo resolución judicial.', ejemplo:'Grabar conversaciones en la cabina del vehículo sin informar al conductor viola este derecho fundamental. Solo un juez puede autorizar la intervención de comunicaciones.', tags:['secreto','comunicaciones','teléfono','grabación','escucha'], sesion:'Sesión 5' },
+  { num:'Art. 20', titulo:'Libertad de expresión', def:'Se reconocen y protegen los derechos: a expresar y difundir libremente los pensamientos, ideas y opiniones mediante la palabra, el escrito o cualquier otro medio de reproducción.', ejemplo:'Puedes publicar en redes sociales tu opinión sobre las condiciones de trabajo en tu empresa. Tu empresa no puede despedirte por ello salvo que causes un daño grave y probado a su reputación.', tags:['expresión','opinión','redes','TikTok','Instagram','publicar','crítica','prensa'], sesion:'Sesión 4 · 5' },
+  { num:'Art. 24', titulo:'Tutela judicial efectiva', def:'Todas las personas tienen derecho a obtener la tutela efectiva de los jueces y tribunales en el ejercicio de sus derechos e intereses legítimos, sin que, en ningún caso, pueda producirse indefensión.', ejemplo:'Si tu empresa te despide injustamente, tienes derecho a llevar el caso ante la justicia con todas las garantías. Siempre tienes derecho a un abogado y a un proceso justo.', tags:['tutela','juez','tribunal','justicia','proceso','defensa','abogado','recurso'], sesion:'Sesión 6' },
+  { num:'Art. 28', titulo:'Libertad sindical y huelga', def:'Todos tienen derecho a sindicarse libremente. Se reconoce el derecho a la huelga de los trabajadores para la defensa de sus intereses.', ejemplo:'Tu empresa no puede impedirte afiliarte a un sindicato ni represaliarte por ello. El derecho a la huelga es fundamental: la empresa debe respetar a los trabajadores que la ejercen legalmente.', tags:['sindicato','huelga','afiliación','trabajador','colectivo','negociación'], sesion:'Sesión 2 · 6' },
+  { num:'Art. 35', titulo:'Derecho al trabajo', def:'Todos los españoles tienen el deber de trabajar y el derecho al trabajo, a la libre elección de profesión u oficio, a la promoción a través del trabajo y a una remuneración suficiente para satisfacer sus necesidades y las de su familia, sin que en ningún caso pueda hacerse discriminación por razón de sexo.', ejemplo:'Tienes derecho a una remuneración suficiente y a promocionar en tu empresa. No es un derecho fundamental (no tiene amparo), pero el Estado debe garantizarlo a través de leyes.', tags:['trabajo','empleo','salario','remuneración','profesión','promoción'], sesion:'Sesión 2 · 3' },
+  { num:'Art. 40.2', titulo:'Descanso y jornada laboral', def:'Los poderes públicos garantizarán el descanso necesario, mediante la limitación de la jornada laboral, las vacaciones periódicas retribuidas y la promoción de centros adecuados.', ejemplo:'La Constitución manda al Estado que proteja tu descanso. Por eso existe el Estatuto de los Trabajadores que limita la jornada.', tags:['descanso','jornada','vacaciones','horas','desconexión'], sesion:'Sesión 2' },
+  { num:'Art. 9.3', titulo:'Jerarquía normativa y seguridad jurídica', def:'La Constitución garantiza el principio de legalidad, la jerarquía normativa, la publicidad de las normas, la irretroactividad de las disposiciones sancionadoras no favorables o restrictivas de derechos individuales, la seguridad jurídica, la responsabilidad y la interdicción de la arbitrariedad de los poderes públicos.', ejemplo:'Ninguna ley, decreto ni reglamento puede contradecir la Constitución. Si un convenio colectivo vulnera un derecho fundamental, prevalece la Constitución. La CE está por encima de todo.', tags:['jerarquía','normativa','ley','constitución','supremacía','legalidad'], sesion:'Sesión 2' },
+  { num:'Art. 53.2', titulo:'Recurso de amparo', def:'Cualquier ciudadano podrá recabar la tutela de las libertades y derechos reconocidos en el artículo 14 y la Sección primera del Capítulo segundo ante los Tribunales ordinarios por un procedimiento basado en los principios de preferencia y sumariedad y, en su caso, a través del recurso de amparo ante el Tribunal Constitucional.', ejemplo:'Es tu arma final. Si un poder público viola tus derechos fundamentales y la justicia ordinaria no te protege, puedes acudir al Tribunal Constitucional. Es el "jefe" de todos los tribunales en materia de derechos.', tags:['amparo','tribunal constitucional','garantía','tutela','recurso'], sesion:'Sesión 3 · 6' },
+];
+
+function buscar(query) {
+  if (!query.trim()) return [];
+  const q = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  return ARTICULOS.filter(a => {
+    const haystack = [a.num, a.titulo, a.def, a.ejemplo, ...a.tags].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    return q.split(' ').every(word => haystack.includes(word));
+  });
+}
+
+function renderResultadoHero(resultados) {
+  const el = document.getElementById('buscador-hero-resultado');
+  if (!resultados.length) {
+    el.innerHTML = '<div style="color:rgba(255,255,255,.6);font-style:italic">No hemos encontrado resultados. Prueba con otras palabras: "intimidad", "trabajo", "huelga"…</div>';
+    el.classList.add('visible'); return;
+  }
+  const a = resultados[0];
+  el.innerHTML = `<div class="art-num">${a.num}</div><h4>${a.titulo}</h4><p>${a.def}</p><p style="margin-top:.5rem;font-style:italic;opacity:.85">💡 ${a.ejemplo}</p><span class="tag">→ ${a.sesion}</span>${resultados.length > 1 ? `<span class="tag">+${resultados.length-1} resultado(s)</span>` : ''}`;
+  el.classList.add('visible');
+}
+
+function renderResultadosMain(resultados) {
+  const el = document.getElementById('buscador-main-resultado');
+  if (!resultados.length) {
+    el.innerHTML = '<div class="sin-resultado">No hemos encontrado resultados. Prueba con: "intimidad", "huelga", "trabajo", "datos", "amparo", "igualdad"…</div>'; return;
+  }
+  el.innerHTML = resultados.map(a => `<div class="resultado-card"><div class="art-num">${a.num}</div><h4>${a.titulo}</h4><p class="def">${a.def}</p><div class="ejemplo"><strong>📌 En tu trabajo:</strong> ${a.ejemplo}</div><span class="sesion-rel">Relacionado con: ${a.sesion}</span></div>`).join('');
+}
+
+function buscarHero() { renderResultadoHero(buscar(document.getElementById('buscador-hero-input').value)); }
+function buscarMain() { renderResultadosMain(buscar(document.getElementById('buscador-main-input').value)); }
+
+// ── ROUTER SPA ──
+const PAGES = ['inicio','buscador','s1','s2','s3','s4','s5','s6'];
+
+function goTo(id) {
+  PAGES.forEach(p => {
+    document.getElementById('page-'+p).classList.remove('active');
+    const n = document.getElementById('nav-'+p);
+    if (n) n.classList.remove('active');
+  });
+  document.getElementById('page-'+id).classList.add('active');
+  const navTarget = document.getElementById('nav-'+id);
+  if (navTarget) navTarget.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('nav-inicio').classList.add('active');
+</script>
+</body>
+</html>
